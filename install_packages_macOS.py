@@ -13,7 +13,7 @@ commands = [
     '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"',
     '(echo; echo \'eval "$(/opt/homebrew/bin/brew shellenv)"\') >> ~/.zprofile',
     'eval "$(/opt/homebrew/bin/brew shellenv)"',
-    "brew install --cask font-jetbrains-mono-nerd",
+    "brew install --cask font-jetbrains-mono-nerd-font",
     "brew install starship",
     "brew install --cask localsend",
     "brew install --cask keepassxc",
