@@ -15,6 +15,8 @@ commands = [
     'eval "$(/opt/homebrew/bin/brew shellenv)"',
     "brew install --cask font-jetbrains-mono-nerd-font",
     "brew install starship",
+    "brew install zsh-autosuggestions",
+    "brew install sqlite",
     "brew install --cask localsend",
     "brew install --cask keepassxc",
     "brew install --cask telegram",
@@ -43,6 +45,8 @@ commands = [
     "brew install --cask zed",
     "brew install --cask google-chrome",
     "brew install --cask omnidisksweeper",
+    "brew tap leoafarias/fvm" 
+    "brew install fvm"
     "mkdir -p ~/Projects",
     "mkdir -p ~/development",
     "unzip ~/Downloads/flutter_macos_arm64_3.24.3-stable.zip -d ~/development/",
