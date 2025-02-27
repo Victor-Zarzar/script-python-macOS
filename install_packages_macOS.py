@@ -10,9 +10,9 @@ def run_command(command, use_sudo=False):
         print(f"Error executing {command}: {e}")
 
 commands = [
+    'mkdir -p ~/Projects',
     '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"',
-    '(echo; echo \'eval "$(/opt/homebrew/bin/brew shellenv)"\') >> ~/.zprofile',
-    'eval "$(/opt/homebrew/bin/brew shellenv)"',
+    '(echo; echo \'eval "$(/opt/homebrew/bin/brew shellenv)"\') >> ~/.zprofile && eval "$(/opt/homebrew/bin/brew shellenv)"',
     "brew install --cask font-jetbrains-mono-nerd-font",
     "brew install starship",
     "brew install zsh-autosuggestions",
@@ -47,16 +47,15 @@ commands = [
     "brew install --cask google-chrome",
     "brew install --cask omnidisksweeper",
     "brew install ollama",
-    "brew tap leoafarias/fvm" 
-    "brew install fvm"
-    "mkdir -p ~/Projects",
-    "source ~/.zshenv",
+    "brew install --cask responsively",
     "sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'",
-    "sudo xcodebuild -license"
+    "sudo xcodebuild -license",
+    "brew tap leoafarias/fvm",  
+    "brew install fvm"
 ]
 
 for cmd in commands:
-    if "sudo" in cmd:
+    if cmd.startswith("sudo"):
         run_command(cmd, use_sudo=True)
     else:
         run_command(cmd)
