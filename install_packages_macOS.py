@@ -4,10 +4,10 @@ def run_command(command, use_sudo=False):
     if use_sudo:
         command = f"sudo {command}"
     try:
-        print(f"Executing: {command}")
+        print(f"🔹 Executando: {command}")
         subprocess.run(command, shell=True, check=True)
     except subprocess.CalledProcessError as e:
-        print(f"Error executing {command}: {e}")
+        print(f"❌ Erro ao executar {command}: {e}")
 
 commands = [
     'mkdir -p ~/Projects',
@@ -45,11 +45,9 @@ commands = [
     "brew install --cask notion",
     "brew install --cask spotify",
     "brew install --cask libreoffice",
-    "brew install --cask zed",
     "brew install --cask google-chrome",
+    "brew install --cask google-drive",
     "brew install --cask omnidisksweeper",
-    "brew install ollama",
-    "brew install --cask responsively",
     "sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'",
     "sudo xcodebuild -license",
     "brew tap leoafarias/fvm",  
@@ -61,3 +59,5 @@ for cmd in commands:
         run_command(cmd, use_sudo=True)
     else:
         run_command(cmd)
+
+print("\n✅ Instalação concluída!")
