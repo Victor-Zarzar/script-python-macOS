@@ -52,6 +52,8 @@ commands = [
     "brew install --cask google-drive",
     "brew install --cask omnidisksweeper",
     "brew install --cask protonvpn",
+    "brew install --cask crossover",
+    "brew install --cask the-unarchiver",
     "sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'",
     "sudo xcodebuild -license",
     "brew tap leoafarias/fvm",  
