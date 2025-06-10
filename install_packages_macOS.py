@@ -55,6 +55,7 @@ commands = [
     "brew install --cask crossover",
     "brew install --cask the-unarchiver",
     "brew install --cask macs-fan-control",
+    "brew install gh",
     "sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'",
     "sudo xcodebuild -license",
     "brew tap leoafarias/fvm",  
