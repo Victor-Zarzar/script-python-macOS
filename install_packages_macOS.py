@@ -86,7 +86,8 @@ commands = [
     "sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch'",
     "brew tap leoafarias/fvm",
     "brew install fvm",
-    "brew install --cask slack"
+    "brew install --cask slack",
+    "brew install --cask cloudflare-warp"
 ]
 
 for cmd in commands:
