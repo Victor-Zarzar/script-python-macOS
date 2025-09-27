@@ -51,7 +51,7 @@ commands = [
     "brew install --cask keepassxc",
     "brew install --cask telegram",
     "brew install cocoapods",
-    "brew install node",
+    "brew install nvm",
     "brew install pnpm",
     "brew install git",
     "git config --global user.name 'victorzarzar'",
