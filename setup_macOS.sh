@@ -78,6 +78,63 @@ run_command() {
 }
 
 # ============================================
+# Pre-requisites Check
+# ============================================
+
+check_xcode_license() {
+    print_section "Checking Xcode License"
+    
+    if ! xcodebuild -license check &> /dev/null; then
+        print_warning "Xcode license not accepted!"
+        print_info "Attempting to accept Xcode license..."
+        
+        if sudo xcodebuild -license accept >> "$LOG_FILE" 2>&1; then
+            print_success "Xcode license accepted"
+            log_action "Xcode license accepted"
+            return 0
+        else
+            print_error "Failed to accept Xcode license"
+            print_warning "Please run manually: sudo xcodebuild -license accept"
+            log_action "ERROR: Xcode license acceptance failed"
+            return 1
+        fi
+    else
+        print_success "Xcode license already accepted"
+        return 0
+    fi
+}
+
+check_prerequisites() {
+    print_section "Checking Prerequisites"
+    
+    local has_errors=false
+    
+    # Check if Xcode Command Line Tools are installed
+    if ! xcode-select -p &> /dev/null; then
+        print_error "Xcode Command Line Tools not found!"
+        print_info "Installing Xcode Command Line Tools..."
+        
+        if xcode-select --install 2>> "$LOG_FILE"; then
+            print_warning "Please complete the installation and re-run the script"
+            exit 1
+        fi
+    else
+        print_success "Xcode Command Line Tools found"
+    fi
+    
+    # Check Xcode license
+    check_xcode_license || has_errors=true
+    
+    if [ "$has_errors" = true ]; then
+        print_error "Prerequisites check failed. Please resolve issues and re-run."
+        return 1
+    fi
+    
+    print_success "All prerequisites met"
+    return 0
+}
+
+# ============================================
 # Installation Functions
 # ============================================
 
@@ -86,6 +143,7 @@ install_homebrew() {
     
     if command -v brew &> /dev/null; then
         print_info "Homebrew already installed"
+        brew --version | head -n 1
         return 0
     fi
     
@@ -222,15 +280,15 @@ install_python_tools() {
     local python_tools=(
         "pyenv:Python version manager"
         "virtualenv:Virtual environments"
-        "fastapi:FastAPI"
-        "uvicorn:Uvicorn ASGI server"
-        "alembic:Database migrations"
     )
     
     for tool in "${python_tools[@]}"; do
         IFS=':' read -r cmd desc <<< "$tool"
         run_command "brew install $cmd" "$desc"
     done
+    
+    # Note: FastAPI, Uvicorn, and Alembic should be installed via pip in virtual environments
+    print_info "Note: Install FastAPI, Uvicorn, and Alembic in your Python virtual environments using pip"
 }
 
 install_flutter_tools() {
@@ -258,20 +316,17 @@ configure_git() {
 }
 
 configure_xcode() {
-    print_section "Configuring Xcode"
+    print_section "Finalizing Xcode Configuration"
     
     if [ -d "/Applications/Xcode.app" ]; then
-        print_info "Accepting Xcode license..."
-        if sudo xcodebuild -license accept >> "$LOG_FILE" 2>&1; then
-            print_success "Xcode license accepted"
-        fi
-        
         print_info "Configuring Xcode command line tools..."
         if sudo sh -c 'xcode-select -s /Applications/Xcode.app/Contents/Developer && xcodebuild -runFirstLaunch' >> "$LOG_FILE" 2>&1; then
             print_success "Xcode configured"
+        else
+            print_warning "Xcode configuration may have failed (this is sometimes normal)"
         fi
     else
-        print_warning "Xcode not found. Skipping Xcode configuration."
+        print_warning "Xcode.app not found. Install from App Store if needed."
     fi
     
     log_action "Xcode configuration attempted"
@@ -285,18 +340,19 @@ show_menu() {
     clear
     print_header
     echo "1)  Run complete setup"
-    echo "2)  Install Homebrew only"
-    echo "3)  Setup directories"
-    echo "4)  Install fonts"
-    echo "5)  Install shell tools"
-    echo "6)  Install databases"
-    echo "7)  Install applications"
-    echo "8)  Install development tools"
-    echo "9)  Install Python tools"
-    echo "10) Install Flutter tools"
-    echo "11) Configure Git"
-    echo "12) Configure Xcode"
-    echo "13) View installation log"
+    echo "2)  Check prerequisites"
+    echo "3)  Install Homebrew only"
+    echo "4)  Setup directories"
+    echo "5)  Install fonts"
+    echo "6)  Install shell tools"
+    echo "7)  Install databases"
+    echo "8)  Install applications"
+    echo "9)  Install development tools"
+    echo "10) Install Python tools"
+    echo "11) Install Flutter tools"
+    echo "12) Configure Git"
+    echo "13) Configure Xcode"
+    echo "14) View installation log"
     echo "0)  Exit"
     echo ""
     echo -n "Choose an option: "
@@ -305,6 +361,12 @@ show_menu() {
 run_full_setup() {
     print_header
     echo -e "${YELLOW}Starting complete setup...${NC}\n"
+    
+    # Check prerequisites FIRST
+    if ! check_prerequisites; then
+        print_error "Prerequisites check failed. Aborting setup."
+        return 1
+    fi
     
     install_homebrew
     setup_directories
@@ -351,18 +413,19 @@ main() {
         
         case $option in
             1) run_full_setup ;;
-            2) install_homebrew ;;
-            3) setup_directories ;;
-            4) install_fonts ;;
-            5) install_shell_tools ;;
-            6) install_databases ;;
-            7) install_apps ;;
-            8) install_development_tools ;;
-            9) install_python_tools ;;
-            10) install_flutter_tools ;;
-            11) configure_git ;;
-            12) configure_xcode ;;
-            13) cat "$LOG_FILE" | less ;;
+            2) check_prerequisites ;;
+            3) install_homebrew ;;
+            4) setup_directories ;;
+            5) install_fonts ;;
+            6) install_shell_tools ;;
+            7) install_databases ;;
+            8) install_apps ;;
+            9) install_development_tools ;;
+            10) install_python_tools ;;
+            11) install_flutter_tools ;;
+            12) configure_git ;;
+            13) configure_xcode ;;
+            14) cat "$LOG_FILE" | less ;;
             0) 
                 print_success "Goodbye!"
                 log_action "Script finished"
