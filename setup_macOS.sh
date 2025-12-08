@@ -4,7 +4,6 @@
 # macOS Development Environment Setup
 # ============================================
 
-# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -13,7 +12,6 @@ PURPLE='\033[0;35m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-# Global variables
 LOG_FILE="$HOME/macos_setup_$(date +%Y%m%d_%H%M%S).log"
 TOTAL_INSTALLED=0
 
@@ -109,7 +107,6 @@ check_prerequisites() {
     
     local has_errors=false
     
-    # Check if Xcode Command Line Tools are installed
     if ! xcode-select -p &> /dev/null; then
         print_error "Xcode Command Line Tools not found!"
         print_info "Installing Xcode Command Line Tools..."
@@ -122,7 +119,6 @@ check_prerequisites() {
         print_success "Xcode Command Line Tools found"
     fi
     
-    # Check Xcode license
     check_xcode_license || has_errors=true
     
     if [ "$has_errors" = true ]; then
@@ -150,7 +146,6 @@ install_homebrew() {
     print_info "Installing Homebrew..."
     
     if /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"; then
-        # Add Homebrew to PATH
         if [[ -f "/opt/homebrew/bin/brew" ]]; then
             eval "$(/opt/homebrew/bin/brew shellenv)"
             echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
@@ -261,7 +256,7 @@ install_development_tools() {
         "git:Git"
         "cocoapods:CocoaPods"
         "nvm:Node Version Manager"
-        "pnpm:PNPM"
+        "bun:Bun runtime"
         "nginx:Nginx"
         "nmap:Nmap"
         "openssh:OpenSSH"
@@ -287,7 +282,6 @@ install_python_tools() {
         run_command "brew install $cmd" "$desc"
     done
     
-    # Note: FastAPI, Uvicorn, and Alembic should be installed via pip in virtual environments
     print_info "Note: Install FastAPI, Uvicorn, and Alembic in your Python virtual environments using pip"
 }
 
@@ -362,7 +356,6 @@ run_full_setup() {
     print_header
     echo -e "${YELLOW}Starting complete setup...${NC}\n"
     
-    # Check prerequisites FIRST
     if ! check_prerequisites; then
         print_error "Prerequisites check failed. Aborting setup."
         return 1
@@ -397,13 +390,11 @@ run_full_setup() {
 # ============================================
 
 main() {
-    # Check if macOS
     if [[ "$OSTYPE" != "darwin"* ]]; then
         print_error "This script is for macOS only!"
         exit 1
     fi
     
-    # Create log file
     touch "$LOG_FILE"
     log_action "Starting setup script"
     
