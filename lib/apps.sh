@@ -32,6 +32,11 @@ install_apps() {
 
     for app in "${apps[@]}"; do
         IFS=':' read -r cmd desc <<< "$app"
-        run_command "brew install --cask $cmd" "$desc"
+
+        if brew list --cask "$cmd" &> /dev/null; then
+            print_info "$desc already installed"
+        else
+            run_command "brew install --cask $cmd" "$desc"
+        fi
     done
 }

@@ -41,7 +41,7 @@ check_prerequisites() {
             exit 1
         fi
     else
-        print_success "Xcode Command Line Tools found"
+        print_success "Xcode Command Line Tools found ($(xcode-select -p))"
     fi
 
     check_xcode_license || has_errors=true

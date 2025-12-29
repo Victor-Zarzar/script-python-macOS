@@ -6,7 +6,7 @@
 
 print_header() {
     echo -e "${CYAN}╔════════════════════════════════════════╗${NC}"
-    echo -e "${CYAN}║   macOS Development Environment       ║${NC}"
+    echo -e "${CYAN}║   macOS Development Environment        ║${NC}"
     echo -e "${CYAN}║   Setup & Configuration                ║${NC}"
     echo -e "${CYAN}╚════════════════════════════════════════╝${NC}"
     echo ""
@@ -14,28 +14,27 @@ print_header() {
 
 print_section() {
     echo ""
-    echo -e "${PURPLE}$1${NC}"
-    echo "────────────────────────────────────────"
+    echo -e "${PURPLE}━━━━ $1 ━━━━${NC}"
 }
 
 print_success() {
-    echo -e "${GREEN}✅ SUCCESS:${NC} $1"
+    echo -e "${GREEN}✓${NC} $1"
 }
 
 print_error() {
-    echo -e "${RED}❌ ERROR:${NC} $1"
+    echo -e "${RED}✗${NC} $1"
 }
 
 print_info() {
-    echo -e "${BLUE}🔹 INFO:${NC} $1"
+    echo -e "${BLUE}ℹ${NC} $1"
 }
 
 print_warning() {
-    echo -e "${YELLOW}⚠️  WARNING:${NC} $1"
+    echo -e "${YELLOW}⚠${NC} $1"
 }
 
 print_executing() {
-    echo -e "${CYAN}🔹 Executing:${NC} $1"
+    echo -e "${CYAN}→${NC} $1"
 }
 
 log_action() {
