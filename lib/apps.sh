@@ -12,6 +12,7 @@ install_apps() {
         "keepassxc:KeePassXC"
         "telegram:Telegram"
         "orion:Orion Browser"
+        "google-chrome: Google Browser"
         "orbstack:OrbStack"
         "sublime-text:Sublime Text"
         "zed:Zed Editor"

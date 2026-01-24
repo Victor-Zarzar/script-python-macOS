@@ -16,6 +16,8 @@ install_development_tools() {
         "nmap:Nmap"
         "openssh:OpenSSH"
         "openjdk@21:OpenJDK 21"
+        "mackup: Backup Sync"
+        "mas: Command-line Interface"
     )
 
     for tool in "${tools[@]}"; do
